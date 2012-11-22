@@ -20,19 +20,15 @@ myval .req r4
 mov myval,#0
 
 loop$:
-eor myval,#1 /* invert myval */
-pinNum .req r0
-pinVal .req r1
-mov pinNum,#16
-mov pinVal,myval
-bl SetGpio
-.unreq pinNum
-.unreq pinVal
+	eor myval,#1 /* invert myval */
+	pinNum .req r0
+	pinVal .req r1
+	mov pinNum,#16
+	mov pinVal,myval
+	bl SetGpio
+	.unreq pinNum
+	.unreq pinVal
 
-mov r2,#0x3F0000
-wait1$:
-sub r2,#1
-cmp r2,#0
-bne wait1$
-
-b loop$
+	ldr r0,=2000000 /* 0.5 seconds */
+	bl Wait /* call Wait with r0 microseconds */
+	b loop$
